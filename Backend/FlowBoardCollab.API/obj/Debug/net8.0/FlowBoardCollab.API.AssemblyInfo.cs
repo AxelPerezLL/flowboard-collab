@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FlowBoardCollab.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60c9fdc3b270405634d560edabfe3853210b5981")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6c5166623ca6a71fb881efb6541eec098f963041")]
 [assembly: System.Reflection.AssemblyProductAttribute("FlowBoardCollab.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FlowBoardCollab.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
