@@ -1,5 +1,6 @@
 using System.Text;
 using FlowBoardCollab.API.Data;
+using FlowBoardCollab.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +28,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     ));
 
+// Registrar servicios
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 // Configurar autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -49,7 +53,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// Configurar Swagger con soporte JWT
+// Configurar Swagger
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo 
@@ -86,7 +90,23 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// Configurar pipeline
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    try
+    {
+        if (dbContext.Database.CanConnect())
+        {
+            Console.WriteLine("✅ Conexión exitosa a MariaDB");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"❌ Error de conexión: {ex.Message}");
+    }
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
