@@ -4,6 +4,9 @@ FlowBoard Collab es una aplicación web que permite a equipos pequeños organiza
 ## ✨ Características
 
 - 🔐 **Autenticación JWT**: Registro y login seguro con tokens
+
+
+  
 Consume API REST
 │
 ▼
@@ -12,16 +15,18 @@ Consume API REST
 │ - API REST con autenticación JWT │
 │ - SignalR para tiempo real │
 │ - Lógica de negocio y validaciones │
-│ - Se ejecuta en: http://localhost:5000 │
 └─────────────────────────────────────────────────────────────────┘
 │
 Accede a BD
 ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │ BASE DE DATOS (MariaDB) │
+
 │ - Almacena: Usuarios, Tableros, Columnas, Tarjetas, etc. │
 │ - Entity Framework Core para acceso a datos │
 │ - Migraciones para control de versiones de BD │
+
+
 ## 🛠️ Tecnologías
 
 ### Backend
@@ -37,7 +42,6 @@ Accede a BD
 - **Docker** - Contenedores
 - **Docker Compose** - Orquestación
 - **Redis** - Caché y backplane de SignalR
-- **MinIO** - Almacenamiento de archivos
 
 ## 📋 Requisitos Previos
 
@@ -47,7 +51,6 @@ Antes de comenzar, asegúrate de tener instalado:
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/downloads)
-- [VS Code](https://code.visualstudio.com/) (recomendado) o Visual Studio 2022
 
 ### Verificar instalación
 
