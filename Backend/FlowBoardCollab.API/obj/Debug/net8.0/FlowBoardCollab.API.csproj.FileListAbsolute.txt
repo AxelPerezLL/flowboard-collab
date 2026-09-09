@@ -126,7 +126,6 @@
 /home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/bin/Debug/net8.0/FlowBoardCollab.API.runtimeconfig.json
 /home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/bin/Debug/net8.0/FlowBoardCollab.API.dll
 /home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/bin/Debug/net8.0/FlowBoardCollab.API.pdb
-/home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/bin/Debug/net8.0/BCrypt.Net-Next.dll
 /home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/bin/Debug/net8.0/Humanizer.dll
 /home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
 /home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
@@ -240,3 +239,4 @@
 /home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/obj/Debug/net8.0/FlowBoardCollab.API.pdb
 /home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/obj/Debug/net8.0/FlowBoardCollab.API.genruntimeconfig.cache
 /home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/obj/Debug/net8.0/ref/FlowBoardCollab.API.dll
+/home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/bin/Debug/net8.0/BCrypt-Net-Next.dll

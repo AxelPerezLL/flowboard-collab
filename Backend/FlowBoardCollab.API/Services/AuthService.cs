@@ -4,6 +4,7 @@ using System.Text;
 using FlowBoardCollab.API.Data;
 using FlowBoardCollab.API.DTOs;
 using FlowBoardCollab.API.Models;
+using FlowBoardCollab.API.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -24,11 +25,13 @@ namespace FlowBoardCollab.API.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService; // <====[AGREGADO]=====>
 
-        public AuthService(ApplicationDbContext context, IConfiguration configuration)
+        public AuthService(ApplicationDbContext context, IConfiguration configuration, IEmailService emailService) // <====[MODIFICADO]=====>
         {
             _context = context;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
         public async Task<AuthResponseDTO> RegisterAsync(RegisterDTO registerDto)
@@ -129,15 +132,19 @@ namespace FlowBoardCollab.API.Services
 
             await _context.SaveChangesAsync();
 
-            // Aquí deberías enviar el email con el código
-            // Por ahora solo retornamos éxito (después conectaremos con EmailService)
-            
-            // TODO: Enviar email con el código recoveryCode al usuario user.Email
-            
+            // <====[ENVIAR EMAIL CON EL CÓDIGO]=====>
+            var emailSent = await _emailService.SendPasswordResetEmailAsync(
+                user.Email,
+                user.Name,
+                recoveryCode
+            );
+
             return new ForgotPasswordResponseDTO
             {
-                Success = true,
-                Message = "Código de recuperación enviado a tu correo."
+                Success = emailSent,
+                Message = emailSent 
+                    ? "Código de recuperación enviado a tu correo." 
+                    : "Error al enviar el código de recuperación. Intenta de nuevo."
             };
         }
 

@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "vokGIbmxcHc/fhgIgCcrd/1Vu6s8PZPNKObSupL4bu6i+oNXMCJgrWay0oylZ29ROfo1tM6hzZJ7i2s9Z6a3vQ==",
+  "dgSpecHash": "YJZlG5a0na3vEsJgSFs+ADA56+pHznhTTeL0Q54LEGTFIdCw4eOfJRc6BCAfpH8cDJaxNVYVToCrh/FrC7wiEQ==",
   "success": true,
   "projectFilePath": "/home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/FlowBoardCollab.API.csproj",
   "expectedPackageFiles": [
-    "/home/axelp/.nuget/packages/bcrypt.net-next/4.0.3/bcrypt.net-next.4.0.3.nupkg.sha512",
+    "/home/axelp/.nuget/packages/bcrypt.net-next/4.2.0/bcrypt.net-next.4.2.0.nupkg.sha512",
     "/home/axelp/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/axelp/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/8.0.10/microsoft.aspnetcore.authentication.jwtbearer.8.0.10.nupkg.sha512",
     "/home/axelp/.nuget/packages/microsoft.aspnetcore.openapi/8.0.30/microsoft.aspnetcore.openapi.8.0.30.nupkg.sha512",
