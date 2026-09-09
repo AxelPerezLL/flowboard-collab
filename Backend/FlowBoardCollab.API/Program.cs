@@ -1,6 +1,7 @@
 using System.Text;
 using FlowBoardCollab.API.Data;
 using FlowBoardCollab.API.Services;
+using FlowBoardCollab.API.Services.Interfaces; // <====[AGREGAR ESTA LÍNEA]=====
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,7 +15,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowReactApp",
         policy =>
         {
-            policy.WithOrigins("http://localhost:3000")
+            policy.WithOrigins("http://localhost:3000", "http://localhost:5173") // <====[AGREGAR PUERTO DE VITE]=====
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();
@@ -30,6 +31,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Registrar servicios
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>(); // <====[YA ESTÁ, BIEN]=====>
 
 // Configurar autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -89,7 +91,6 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
-
 
 using (var scope = app.Services.CreateScope())
 {

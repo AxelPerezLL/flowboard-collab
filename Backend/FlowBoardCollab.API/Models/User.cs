@@ -28,7 +28,12 @@ namespace FlowBoardCollab.API.Models
 
         public bool IsActive { get; set; } = true;
 
+        // <====[CAMPOS PARA RECUPERACIÓN DE CONTRASEÑA]=====>
+        public string? RecoveryCode { get; set; }
+        public DateTime? RecoveryCodeExpiresAt { get; set; }
+
         // Relaciones
         public virtual ICollection<TeamMember> TeamMemberships { get; set; } = new List<TeamMember>();
+        public virtual ICollection<PasswordResetToken>? PasswordResetTokens { get; set; }
     }
 }
