@@ -1,0 +1,168 @@
+version: '3.8'
+
+services:
+  # ============================================
+  # MariaDB - Base de datos principal
+  # ============================================
+  mariadb:
+    image: mariadb:11.2
+    container_name: flowboard-db
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_CHARACTER_SET: utf8mb4
+      MARIADB_COLLATE: utf8mb4_unicode_ci
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - flowboard-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ============================================
+  # Redis - Caché y backplane para SignalR
+  # ============================================
+  redis:
+    image: redis:7.2-alpine
+    container_name: flowboard-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - flowboard-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================
+  # MinIO - Almacenamiento de archivos S3
+  # ============================================
+  minio:
+    image: minio/minio:latest
+    container_name: flowboard-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - "9000:9000"   # API
+      - "9001:9001"   # Consola web
+    volumes:
+      - minio_data:/data
+    networks:
+      - flowboard-network
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # ============================================
+  # Backend - .NET 8 API
+  # ============================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: flowboard-backend
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
+      - JWT__SecretKey=${JWT_SECRET_KEY}
+      - JWT__Issuer=${JWT_ISSUER}
+      - JWT__Audience=${JWT_AUDIENCE}
+      - SignalR__HubUrl=${SIGNALR_HUB_URL}
+      - Storage__ContainerName=${STORAGE_CONTAINER_NAME}
+      - Storage__ConnectionString=${STORAGE_CONNECTION_STRING}
+      - Redis__ConnectionString=${REDIS_CONNECTION_STRING}
+      - Redis__InstanceName=${REDIS_INSTANCE_NAME}
+      - LOG_LEVEL=${LOG_LEVEL}
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    networks:
+      - flowboard-network
+    volumes:
+      - ./backend:/app
+      - /app/bin
+      - /app/obj
+      - backend_uploads:/app/uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ============================================
+  # Frontend - React + Vite
+  # ============================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+        - VITE_SIGNALR_URL=${VITE_SIGNALR_URL}
+        - VITE_APP_NAME=${VITE_APP_NAME}
+    container_name: flowboard-frontend
+    restart: unless-stopped
+    environment:
+      - VITE_API_URL=${VITE_API_URL}
+      - VITE_SIGNALR_URL=${VITE_SIGNALR_URL}
+      - VITE_APP_NAME=${VITE_APP_NAME}
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - flowboard-network
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/dist
+
+# ============================================
+# Volúmenes persistentes
+# ============================================
+volumes:
+  mariadb_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local
+  backend_uploads:
+    driver: local
+
+# ============================================
+# Redes
+# ============================================
+networks:
+  flowboard-network:
+    driver: bridge
+    name: flowboard-network
