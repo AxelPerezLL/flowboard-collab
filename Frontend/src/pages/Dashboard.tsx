@@ -1,93 +1,123 @@
 import React from 'react';
-import { useAuth } from '../hooks/useAuth';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import '../styles/pages/dashboard.css';
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
+  const stats = [
+    { label: 'Tableros', value: '3', icon: '📋' },
+    { label: 'Tarjetas', value: '12', icon: '📝' },
+    { label: 'Miembros', value: '5', icon: '👥' },
+    { label: 'Completadas', value: '8', icon: '✅' },
+  ];
+
+  const activities = [
+    { text: 'Creaste el tablero "Proyecto Alpha"', time: 'Hace 2 horas', dot: 'cyan' },
+    { text: 'Completaste la tarea "Diseñar UI"', time: 'Hace 5 horas', dot: 'blue' },
+    { text: 'Te uniste al equipo "Desarrollo"', time: 'Ayer', dot: 'success' },
+  ];
+
+  const actions = [
+    { path: '/boards', icon: '📊', label: 'Ver tableros' },
+    { path: '/profile', icon: '👤', label: 'Mi perfil' },
+    { path: '/stats', icon: '📈', label: 'Estadísticas' },
+    { path: '#', icon: '❓', label: 'Ayuda' },
+  ];
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
+    <div className="dashboard-container">
+      {/* <====[HEADER]=====> */}
+      <div className="dashboard-header">
+        <div>
+          <h1 className="dashboard-title">
+            ¡Bienvenido, {user?.name || 'Usuario'}! 👋
+          </h1>
+          <p className="dashboard-subtitle">
+            Este es tu panel de control de FlowBoard Collab
+          </p>
+        </div>
+        <Link to="/boards" className="dashboard-new-board-btn">
+          <span className="dashboard-new-board-btn-glow" />
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          Nuevo tablero
+        </Link>
+      </div>
+
+      {/* <====[STATS]=====> */}
+      <div className="dashboard-stats">
+        {stats.map((stat, index) => (
+          <div key={index} className="dashboard-stat-card">
+            <div className="dashboard-stat-content">
+              <span className="dashboard-stat-icon">{stat.icon}</span>
+              <div>
+                <p className="dashboard-stat-value">{stat.value}</p>
+                <p className="dashboard-stat-label">{stat.label}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* <====[ACTIVIDAD RECIENTE]=====> */}
+      <div className="dashboard-activity">
+        <div className="dashboard-activity-card">
+          <h3 className="dashboard-activity-title">📈 Actividad reciente</h3>
+          <div className="space-y-3">
+            {activities.map((activity, index) => (
+              <div key={index} className="dashboard-activity-item">
+                <div className={`dashboard-activity-dot-${activity.dot}`} />
+                <div>
+                  <p className="dashboard-activity-text">{activity.text}</p>
+                  <p className="dashboard-activity-time">{activity.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="dashboard-activity-card">
+          <h3 className="dashboard-activity-title">📌 Acciones rápidas</h3>
+          <div className="dashboard-actions">
+            {actions.map((action, index) => (
+              <Link
+                key={index}
+                to={action.path}
+                className="dashboard-action-btn"
+              >
+                <div className="dashboard-action-icon">{action.icon}</div>
+                <span className="dashboard-action-label">{action.label}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* <====[PERFIL]=====> */}
+      <div className="dashboard-profile">
+        <h3 className="dashboard-profile-title">🧑‍💻 Mi perfil</h3>
+        <div className="dashboard-profile-grid">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              ¡Bienvenido, {user?.name || 'Usuario'}! 👋
-            </h1>
-            <p className="text-gray-600 mt-1">
-              Panel de control de FlowBoard Collab
-            </p>
+            <p className="dashboard-profile-label">Nombre</p>
+            <p className="dashboard-profile-value">{user?.name || 'N/A'}</p>
           </div>
-          <Link
-            to="/boards"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Ver tableros
-          </Link>
-        </div>
-
-        {/* User Info Card */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-medium text-gray-500">Nombre</h3>
-            <p className="mt-1 text-lg font-semibold text-gray-900">{user?.name}</p>
+          <div>
+            <p className="dashboard-profile-label">Correo</p>
+            <p className="dashboard-profile-value">{user?.email || 'N/A'}</p>
           </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-medium text-gray-500">Correo</h3>
-            <p className="mt-1 text-lg font-semibold text-gray-900">{user?.email}</p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-sm font-medium text-gray-500">Miembro desde</h3>
-            <p className="mt-1 text-lg font-semibold text-gray-900">
-              {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              }) : 'N/A'}
-            </p>
-          </div>
-        </div>
-
-        {/* Quick Actions */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Acciones rápidas</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Link
-              to="/boards/new"
-              className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors text-center"
-            >
-              <div className="text-2xl mb-2">📋</div>
-              <span className="text-sm font-medium text-gray-700">Crear tablero</span>
-            </Link>
-            <Link
-              to="/boards"
-              className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors text-center"
-            >
-              <div className="text-2xl mb-2">📊</div>
-              <span className="text-sm font-medium text-gray-700">Ver tableros</span>
-            </Link>
-            <Link
-              to="/profile"
-              className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors text-center"
-            >
-              <div className="text-2xl mb-2">👤</div>
-              <span className="text-sm font-medium text-gray-700">Mi perfil</span>
-            </Link>
-          </div>
-        </div>
-
-        {/* Placeholder para futuros componentes */}
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">📈 Actividad reciente</h3>
-            <p className="text-gray-500 text-sm">
-              Aquí aparecerán tus actividades recientes...
-            </p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">📌 Tus tableros</h3>
-            <p className="text-gray-500 text-sm">
-              No tienes tableros aún. ¡Crea uno!
+          <div>
+            <p className="dashboard-profile-label">Miembro desde</p>
+            <p className="dashboard-profile-value">
+              {user?.createdAt 
+                ? new Date(user.createdAt).toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                : 'N/A'}
             </p>
           </div>
         </div>

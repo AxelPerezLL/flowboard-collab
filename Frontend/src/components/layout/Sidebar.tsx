@@ -57,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* <====[OVERLAY PARA MÓVIL]=====> */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
           onClick={onClose}
         />
       )}
@@ -65,15 +65,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* <====[SIDEBAR]=====> */}
       <aside
         className={`
-          fixed top-0 left-0 h-full w-72 bg-bg-secondary border-r border-border z-50
-          transform transition-transform duration-300 ease-in-out
+          fixed top-0 left-0 h-full w-72 bg-bg-secondary/95 backdrop-blur-sm border-r border-border z-50
+          transform transition-all duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0 lg:static lg:z-0
         `}
       >
         {/* <====[HEADER SIDEBAR]=====> */}
         <div className="flex items-center gap-3 px-6 py-6 border-b border-border">
-          <div className="w-10 h-10 rounded-lg bg-cyan-dark flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-dark to-cyan-medium flex items-center justify-center shadow-[0_0_20px_rgba(0,212,255,0.2)]">
             <span className="text-white font-bold text-lg">F</span>
           </div>
           <div>
@@ -89,24 +89,43 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `sidebar-link ${isActive ? 'sidebar-link-active' : ''}`
+                `sidebar-link relative overflow-hidden transition-all duration-300 ${
+                  isActive ? 'sidebar-link-active' : ''
+                }`
               }
               onClick={onClose}
             >
-              {item.icon}
-              <span>{item.label}</span>
+              {({ isActive }) => (
+                <>
+                  {/* <====[ANIMACIÓN DE GLOW AL HOVER]=====> */}
+                  <span className="absolute inset-0 bg-gradient-to-r from-cyan-dark/10 to-cyan-light/5 opacity-0 hover:opacity-100 transition-opacity duration-300" />
+                  
+                  {/* <====[INDICADOR ACTIVO]=====> */}
+                  {isActive && (
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-cyan-light rounded-r-full" />
+                  )}
+                  
+                  <span className="relative z-10">{item.icon}</span>
+                  <span className="relative z-10">{item.label}</span>
+                  
+                  {/* <====[ANIMACIÓN DE SUBRAYADO]=====> */}
+                  <span className={`absolute bottom-2 left-4 right-4 h-0.5 bg-cyan-light/30 transition-all duration-300 ${
+                    isActive ? 'opacity-100' : 'opacity-0 hover:opacity-100'
+                  }`} />
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
 
         {/* <====[PERFIL Y LOGOUT]=====> */}
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
-          <div className="flex items-center gap-3 px-2 py-2 rounded-lg bg-bg-tertiary">
-            <div className="w-10 h-10 rounded-full bg-blue-muted flex items-center justify-center text-white font-bold">
+          <div className="flex items-center gap-3 px-2 py-2 rounded-lg bg-bg-tertiary/50 backdrop-blur-sm transition-all duration-300 hover:bg-bg-tertiary">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-muted to-cyan-dark flex items-center justify-center text-white font-bold shadow-[0_0_20px_rgba(74,107,154,0.2)]">
               {user?.name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-text-primary truncate">
+              <p className="text-sm font-medium text-text-primary truncate hover:text-cyan-light transition-colors duration-300">
                 {user?.name || 'Usuario'}
               </p>
               <p className="text-xs text-text-secondary truncate">
@@ -115,7 +134,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </div>
             <button
               onClick={handleLogout}
-              className="p-2 text-text-secondary hover:text-error hover:bg-error/10 rounded-lg transition-all duration-200"
+              className="p-2 text-text-secondary hover:text-error hover:bg-error/10 rounded-lg transition-all duration-300 hover:scale-110"
               title="Cerrar sesión"
             >
               {icons.logout}

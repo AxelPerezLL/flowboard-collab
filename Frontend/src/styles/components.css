@@ -1,0 +1,100 @@
+/* <====[ESTILOS DE COMPONENTES REUTILIZABLES]=====> */
+
+@layer components {
+  /* <====[INPUTS]=====> */
+  .input-dark {
+    @apply w-full px-4 py-2 bg-bg-tertiary border border-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-cyan-dark transition-all duration-300;
+  }
+
+  .input-dark:focus {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+  }
+
+  /* <====[CARDS]=====> */
+  .card-dark {
+    @apply bg-bg-card border border-border rounded-xl p-6 transition-all duration-300;
+  }
+
+  .card-glow {
+    @apply transition-all duration-300;
+  }
+
+  .card-glow:hover {
+    @apply border-cyan-dark/30;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+    transform: translateY(-4px);
+  }
+
+  /* <====[SIDEBAR]=====> */
+.sidebar-link {
+  @apply flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-tertiary transition-all duration-200;
+}
+
+.sidebar-link-active {
+  @apply text-text-primary bg-cyan-dark/20 border-r-2 border-cyan-dark;
+}
+
+  /* <====[BOTONES]=====> */
+  .btn-glow {
+    @apply relative overflow-hidden transition-all duration-300 inline-flex items-center justify-center gap-2 font-medium py-2 px-4 rounded-lg cursor-pointer;
+  }
+
+  .btn-glow::before {
+    content: '';
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+    background: radial-gradient(circle at center, rgba(0, 212, 255, 0.3) 0%, transparent 70%);
+  }
+
+  .btn-glow:hover::before {
+    @apply opacity-100;
+  }
+
+  .btn-glow:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-glow:active {
+    transform: translateY(0px) scale(0.98);
+  }
+
+  .btn-glow:disabled {
+    @apply opacity-50 cursor-not-allowed;
+    transform: none !important;
+  }
+
+  .btn-glow:disabled::before {
+    display: none;
+  }
+
+  .btn-primary {
+    @apply btn-glow bg-cyan-dark hover:bg-cyan-medium text-white;
+  }
+
+  .btn-primary:hover {
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+  }
+
+  .btn-secondary {
+    @apply btn-glow bg-blue-muted hover:bg-blue-muted-light text-white;
+  }
+
+  .btn-secondary:hover {
+    box-shadow: 0 0 30px rgba(74, 107, 154, 0.3);
+  }
+
+  .btn-outline {
+    @apply btn-glow border border-cyan-dark text-cyan-light hover:bg-cyan-dark hover:text-white;
+  }
+
+  .btn-outline:hover {
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+  }
+
+  .btn-danger {
+    @apply btn-glow bg-error hover:bg-red-600 text-white;
+  }
+
+  .btn-danger:hover {
+    box-shadow: 0 0 30px rgba(248, 81, 73, 0.3);
+  }
+}

@@ -1,0 +1,186 @@
+/* <====[ESTILOS ESPECÍFICOS DE LOGIN]=====> */
+
+.login-container {
+  @apply min-h-screen flex items-center justify-center bg-bg-primary px-4 relative overflow-hidden;
+}
+
+.login-card {
+  @apply w-full max-w-md relative z-10;
+}
+
+.login-card-inner {
+  @apply bg-bg-card border border-border rounded-xl p-6 transition-all duration-300;
+}
+
+.login-card-inner:hover {
+  @apply border-cyan-dark/30;
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.1);
+  transform: translateY(-4px);
+}
+
+.login-logo-wrapper {
+  @apply text-center mb-8;
+}
+
+.login-logo {
+  @apply inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-cyan-dark/20 border border-cyan-dark/30 mb-4 relative;
+}
+
+.login-logo-text {
+  @apply text-3xl font-bold;
+  color: #00d4ff;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5), 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.login-logo-glow {
+  @apply absolute inset-0 rounded-2xl bg-cyan-dark/20 blur-xl opacity-0 transition-opacity duration-500;
+}
+
+.login-logo:hover .login-logo-glow {
+  @apply opacity-100;
+}
+
+.login-title {
+  @apply text-2xl font-bold text-text-primary;
+}
+
+.login-subtitle {
+  @apply text-text-secondary mt-1;
+}
+
+.login-form {
+  @apply space-y-5;
+}
+
+.login-label {
+  @apply block text-sm font-medium mb-1.5 transition-all duration-300 text-text-secondary;
+}
+
+.login-label--focused {
+  @apply text-cyan-light;
+}
+
+.login-input-wrapper {
+  @apply relative;
+}
+
+.login-input {
+  @apply w-full px-4 py-2 bg-bg-tertiary border border-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-cyan-dark transition-all duration-300;
+}
+
+.login-input:focus {
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.15);
+}
+
+.login-input-underline {
+  @apply absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-cyan-dark to-cyan-light transition-all duration-300 w-0;
+}
+
+.login-input-underline--active {
+  @apply w-full;
+}
+
+.login-password-toggle {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 text-text-secondary hover:text-cyan-light transition-colors duration-200;
+}
+
+.login-error {
+  @apply bg-error/10 border border-error/20 rounded-lg p-3;
+}
+
+.login-error-text {
+  @apply text-sm text-error;
+}
+
+.login-submit-btn {
+  @apply w-full bg-cyan-dark hover:bg-cyan-medium text-white font-medium py-2.5 px-4 rounded-lg transition-all duration-300 relative overflow-hidden;
+}
+
+.login-submit-btn:hover {
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.login-submit-btn-glow {
+  @apply absolute inset-0 bg-gradient-to-r from-cyan-dark to-cyan-medium opacity-0 transition-opacity duration-500;
+}
+
+.login-submit-btn:hover .login-submit-btn-glow {
+  @apply opacity-20;
+}
+
+.login-submit-btn-glow-blur {
+  @apply absolute inset-0 bg-gradient-to-r from-cyan-dark to-cyan-medium blur-xl opacity-0 transition-opacity duration-500;
+}
+
+.login-submit-btn:hover .login-submit-btn-glow-blur {
+  @apply opacity-30;
+}
+
+.login-submit-btn-loading {
+  @apply flex items-center justify-center gap-2;
+}
+
+.login-submit-btn-spinner {
+  @apply animate-spin h-5 w-5;
+}
+
+.login-register-link {
+  @apply text-center text-sm text-text-secondary;
+}
+
+.login-register-link a {
+  @apply text-cyan-light hover:text-cyan-medium transition-colors relative;
+}
+
+.login-register-link a::after {
+  content: '';
+  @apply absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-light transition-all duration-300;
+}
+
+.login-register-link a:hover::after {
+  @apply w-full;
+}
+
+.login-background {
+  @apply absolute inset-0 overflow-hidden;
+}
+
+.login-orb-1 {
+  @apply absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, transparent 70%);
+  animation: loginFloat 6s ease-in-out infinite;
+}
+
+.login-orb-2 {
+  @apply absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full;
+  background: radial-gradient(circle, rgba(74, 107, 154, 0.2) 0%, transparent 70%);
+  animation: loginFloat 6s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.login-orb-3 {
+  @apply absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-cyan-dark/10 blur-3xl;
+  animation: loginPulseGlow 3s ease-in-out infinite;
+}
+
+.login-particle {
+  @apply absolute rounded-full;
+  animation: loginTwinkle 2s ease-in-out infinite;
+}
+
+/* <====[ANIMACIONES]=====> */
+@keyframes loginFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes loginPulseGlow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+@keyframes loginTwinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}

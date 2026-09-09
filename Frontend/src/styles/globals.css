@@ -1,0 +1,63 @@
+@import './effects.css';
+@import './components.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* <====[PALETA DE COLORES OSCURA]=====> */
+@layer base {
+  :root {
+    --color-cyan-dark: #0a4a5a;
+    --color-cyan-medium: #0d6b7a;
+    --color-cyan-light: #1a8a9a;
+    --color-cyan-glow: #00d4ff;
+    --color-blue-muted: #2c3e6b;
+    --color-blue-muted-light: #4a6b9a;
+    --color-bg-primary: #0d1117;
+    --color-bg-secondary: #161b22;
+    --color-bg-tertiary: #1c2333;
+    --color-bg-card: #1a1f2e;
+    --color-text-primary: #e6edf3;
+    --color-text-secondary: #8b949e;
+    --color-text-muted: #484f58;
+    --color-border: #30363d;
+    --color-border-hover: #4a6b9a;
+    --color-success: #2ea043;
+    --color-error: #f85149;
+    --color-warning: #d29922;
+    --color-info: #58a6ff;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-image:
+      radial-gradient(ellipse at 10% 20%, rgba(10, 74, 90, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(44, 62, 107, 0.15) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-bg-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-cyan-dark rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-cyan-medium;
+  }
+}
