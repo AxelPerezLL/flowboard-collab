@@ -6,26 +6,6 @@ import '../styles/pages/dashboard.css';
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
 
-  const stats = [
-    { label: 'Tableros', value: '3', icon: '📋' },
-    { label: 'Tarjetas', value: '12', icon: '📝' },
-    { label: 'Miembros', value: '5', icon: '👥' },
-    { label: 'Completadas', value: '8', icon: '✅' },
-  ];
-
-  const activities = [
-    { text: 'Creaste el tablero "Proyecto Alpha"', time: 'Hace 2 horas', dot: 'cyan' },
-    { text: 'Completaste la tarea "Diseñar UI"', time: 'Hace 5 horas', dot: 'blue' },
-    { text: 'Te uniste al equipo "Desarrollo"', time: 'Ayer', dot: 'success' },
-  ];
-
-  const actions = [
-    { path: '/boards', icon: '📊', label: 'Ver tableros' },
-    { path: '/profile', icon: '👤', label: 'Mi perfil' },
-    { path: '/stats', icon: '📈', label: 'Estadísticas' },
-    { path: '#', icon: '❓', label: 'Ayuda' },
-  ];
-
   return (
     <div className="dashboard-container">
       {/* <====[HEADER]=====> */}
@@ -47,60 +27,86 @@ const Dashboard: React.FC = () => {
         </Link>
       </div>
 
-      {/* <====[STATS]=====> */}
+      {/* <====[STATS - VACIOS]=====> */}
       <div className="dashboard-stats">
-        {stats.map((stat, index) => (
-          <div 
-            key={index} 
-            className="dashboard-stat-card animate-fade-in-up"
-            style={{ animationDelay: `${index * 100}ms` }}
-          >
-            <div className="dashboard-stat-content">
-              <span className="dashboard-stat-icon">{stat.icon}</span>
-              <div>
-                <p className="dashboard-stat-value">{stat.value}</p>
-                <p className="dashboard-stat-label">{stat.label}</p>
-              </div>
+        <div className="dashboard-stat-card animate-fade-in-up" style={{ animationDelay: '0ms' }}>
+          <div className="dashboard-stat-content">
+            <span className="dashboard-stat-icon">📋</span>
+            <div>
+              <p className="dashboard-stat-value">0</p>
+              <p className="dashboard-stat-label">Tableros</p>
             </div>
           </div>
-        ))}
+        </div>
+        <div className="dashboard-stat-card animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+          <div className="dashboard-stat-content">
+            <span className="dashboard-stat-icon">📝</span>
+            <div>
+              <p className="dashboard-stat-value">0</p>
+              <p className="dashboard-stat-label">Tarjetas</p>
+            </div>
+          </div>
+        </div>
+        <div className="dashboard-stat-card animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+          <div className="dashboard-stat-content">
+            <span className="dashboard-stat-icon">👥</span>
+            <div>
+              <p className="dashboard-stat-value">0</p>
+              <p className="dashboard-stat-label">Miembros</p>
+            </div>
+          </div>
+        </div>
+        <div className="dashboard-stat-card animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+          <div className="dashboard-stat-content">
+            <span className="dashboard-stat-icon">✅</span>
+            <div>
+              <p className="dashboard-stat-value">0</p>
+              <p className="dashboard-stat-label">Completadas</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* <====[ACTIVIDAD RECIENTE]=====> */}
+      {/* <====[ACTIVIDAD Y ACCIONES - VACIAS]=====> */}
       <div className="dashboard-activity">
         <div className="dashboard-activity-card animate-fade-in-up" style={{ animationDelay: '200ms' }}>
           <h3 className="dashboard-activity-title">📈 Actividad reciente</h3>
-          <div className="space-y-3">
-            {activities.map((activity, index) => (
-              <div 
-                key={index} 
-                className="dashboard-activity-item animate-fade-in-up"
-                style={{ animationDelay: `${300 + index * 100}ms` }}
-              >
-                <div className={`dashboard-activity-dot-${activity.dot}`} />
-                <div>
-                  <p className="dashboard-activity-text">{activity.text}</p>
-                  <p className="dashboard-activity-time">{activity.time}</p>
-                </div>
-              </div>
-            ))}
+          <div className="text-text-secondary text-sm">
+            No hay actividad reciente
           </div>
         </div>
 
         <div className="dashboard-activity-card animate-fade-in-up" style={{ animationDelay: '400ms' }}>
           <h3 className="dashboard-activity-title">📌 Acciones rápidas</h3>
           <div className="dashboard-actions">
-            {actions.map((action, index) => (
-              <Link
-                key={index}
-                to={action.path}
-                className="dashboard-action-btn animate-fade-in-up"
-                style={{ animationDelay: `${500 + index * 100}ms` }}
-              >
-                <div className="dashboard-action-icon">{action.icon}</div>
-                <span className="dashboard-action-label">{action.label}</span>
-              </Link>
-            ))}
+            <Link
+              to="/boards"
+              className="dashboard-action-btn animate-fade-in-up"
+              style={{ animationDelay: '500ms' }}
+            >
+              <div className="dashboard-action-icon">📊</div>
+              <span className="dashboard-action-label">Ver tableros</span>
+            </Link>
+            <Link
+              to="/profile"
+              className="dashboard-action-btn animate-fade-in-up"
+              style={{ animationDelay: '600ms' }}
+            >
+              <div className="dashboard-action-icon">👤</div>
+              <span className="dashboard-action-label">Mi perfil</span>
+            </Link>
+            <Link
+              to="/stats"
+              className="dashboard-action-btn animate-fade-in-up"
+              style={{ animationDelay: '700ms' }}
+            >
+              <div className="dashboard-action-icon">📈</div>
+              <span className="dashboard-action-label">Estadísticas</span>
+            </Link>
+            <div className="dashboard-action-btn animate-fade-in-up" style={{ animationDelay: '800ms' }}>
+              <div className="dashboard-action-icon">❓</div>
+              <span className="dashboard-action-label">Ayuda</span>
+            </div>
           </div>
         </div>
       </div>
