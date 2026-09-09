@@ -29,7 +29,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="dashboard-container">
       {/* <====[HEADER]=====> */}
-      <div className="dashboard-header">
+      <div className="dashboard-header animate-fade-in-up">
         <div>
           <h1 className="dashboard-title">
             ¡Bienvenido, {user?.name || 'Usuario'}! 👋
@@ -50,7 +50,11 @@ const Dashboard: React.FC = () => {
       {/* <====[STATS]=====> */}
       <div className="dashboard-stats">
         {stats.map((stat, index) => (
-          <div key={index} className="dashboard-stat-card">
+          <div 
+            key={index} 
+            className="dashboard-stat-card animate-fade-in-up"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
             <div className="dashboard-stat-content">
               <span className="dashboard-stat-icon">{stat.icon}</span>
               <div>
@@ -64,11 +68,15 @@ const Dashboard: React.FC = () => {
 
       {/* <====[ACTIVIDAD RECIENTE]=====> */}
       <div className="dashboard-activity">
-        <div className="dashboard-activity-card">
+        <div className="dashboard-activity-card animate-fade-in-up" style={{ animationDelay: '200ms' }}>
           <h3 className="dashboard-activity-title">📈 Actividad reciente</h3>
           <div className="space-y-3">
             {activities.map((activity, index) => (
-              <div key={index} className="dashboard-activity-item">
+              <div 
+                key={index} 
+                className="dashboard-activity-item animate-fade-in-up"
+                style={{ animationDelay: `${300 + index * 100}ms` }}
+              >
                 <div className={`dashboard-activity-dot-${activity.dot}`} />
                 <div>
                   <p className="dashboard-activity-text">{activity.text}</p>
@@ -79,14 +87,15 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        <div className="dashboard-activity-card">
+        <div className="dashboard-activity-card animate-fade-in-up" style={{ animationDelay: '400ms' }}>
           <h3 className="dashboard-activity-title">📌 Acciones rápidas</h3>
           <div className="dashboard-actions">
             {actions.map((action, index) => (
               <Link
                 key={index}
                 to={action.path}
-                className="dashboard-action-btn"
+                className="dashboard-action-btn animate-fade-in-up"
+                style={{ animationDelay: `${500 + index * 100}ms` }}
               >
                 <div className="dashboard-action-icon">{action.icon}</div>
                 <span className="dashboard-action-label">{action.label}</span>
@@ -97,7 +106,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* <====[PERFIL]=====> */}
-      <div className="dashboard-profile">
+      <div className="dashboard-profile animate-fade-in-up" style={{ animationDelay: '600ms' }}>
         <h3 className="dashboard-profile-title">🧑‍💻 Mi perfil</h3>
         <div className="dashboard-profile-grid">
           <div>

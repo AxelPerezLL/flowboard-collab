@@ -57,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       {/* <====[OVERLAY PARA MÓVIL]=====> */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden animate-fade-in"
           onClick={onClose}
         />
       )}
@@ -83,7 +83,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* <====[NAVEGACIÓN]=====> */}
-        <nav className="px-4 py-6 space-y-1">
+        <nav className="px-4 py-6 space-y-1 pb-32">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
@@ -97,18 +97,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             >
               {({ isActive }) => (
                 <>
-                  {/* <====[ANIMACIÓN DE GLOW AL HOVER]=====> */}
                   <span className="absolute inset-0 bg-gradient-to-r from-cyan-dark/10 to-cyan-light/5 opacity-0 hover:opacity-100 transition-opacity duration-300" />
                   
-                  {/* <====[INDICADOR ACTIVO]=====> */}
                   {isActive && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-cyan-light rounded-r-full" />
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-cyan-light rounded-r-full animate-pulse-soft" />
                   )}
                   
                   <span className="relative z-10">{item.icon}</span>
                   <span className="relative z-10">{item.label}</span>
                   
-                  {/* <====[ANIMACIÓN DE SUBRAYADO]=====> */}
                   <span className={`absolute bottom-2 left-4 right-4 h-0.5 bg-cyan-light/30 transition-all duration-300 ${
                     isActive ? 'opacity-100' : 'opacity-0 hover:opacity-100'
                   }`} />
@@ -118,10 +115,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           ))}
         </nav>
 
-        {/* <====[PERFIL Y LOGOUT]=====> */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
+        {/* <====[PERFIL Y LOGOUT - SEPARADO DEL NAV]=====> */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border bg-bg-secondary/95 backdrop-blur-sm">
           <div className="flex items-center gap-3 px-2 py-2 rounded-lg bg-bg-tertiary/50 backdrop-blur-sm transition-all duration-300 hover:bg-bg-tertiary">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-muted to-cyan-dark flex items-center justify-center text-white font-bold shadow-[0_0_20px_rgba(74,107,154,0.2)]">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-muted to-cyan-dark flex items-center justify-center text-white font-bold shadow-[0_0_20px_rgba(74,107,154,0.2)] flex-shrink-0">
               {user?.name?.charAt(0)?.toUpperCase() || 'U'}
             </div>
             <div className="flex-1 min-w-0">
@@ -134,7 +131,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
             </div>
             <button
               onClick={handleLogout}
-              className="p-2 text-text-secondary hover:text-error hover:bg-error/10 rounded-lg transition-all duration-300 hover:scale-110"
+              className="p-2 text-text-secondary hover:text-error hover:bg-error/10 rounded-lg transition-all duration-300 hover:scale-110 flex-shrink-0"
               title="Cerrar sesión"
             >
               {icons.logout}
