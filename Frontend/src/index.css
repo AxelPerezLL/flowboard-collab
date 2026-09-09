@@ -2,16 +2,102 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Estilos globales básicos */
+/* <====[PALETA DE COLORES OSCURA: CYAN OSCURO Y AZUL OPACO]=====> */
 @layer base {
-  body {
-    @apply bg-gray-50 text-gray-900 antialiased;
+  :root {
+    /* <====[COLORES PRINCIPALES]=====> */
+    --color-cyan-dark: #0a4a5a;
+    --color-cyan-medium: #0d6b7a;
+    --color-cyan-light: #1a8a9a;
+    --color-blue-muted: #2c3e6b;
+    --color-blue-muted-light: #4a6b9a;
+    
+    /* <====[FONDOS]=====> */
+    --color-bg-primary: #0d1117;
+    --color-bg-secondary: #161b22;
+    --color-bg-tertiary: #1c2333;
+    --color-bg-card: #1a1f2e;
+    
+    /* <====[TEXTOS]=====> */
+    --color-text-primary: #e6edf3;
+    --color-text-secondary: #8b949e;
+    --color-text-muted: #484f58;
+    
+    /* <====[BORDES]=====> */
+    --color-border: #30363d;
+    --color-border-hover: #4a6b9a;
+    
+    /* <====[ESTADOS]=====> */
+    --color-success: #2ea043;
+    --color-error: #f85149;
+    --color-warning: #d29922;
+    --color-info: #58a6ff;
   }
 }
 
-/* Clases personalizadas (opcional) */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-bg-primary text-text-primary;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  
+  /* <====[SCROLLBAR PERSONALIZADA]=====> */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-bg-secondary;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-cyan-dark rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-cyan-medium;
+  }
+}
+
 @layer components {
+  /* <====[BOTONES]=====> */
   .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors;
+    @apply bg-cyan-dark hover:bg-cyan-medium text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-blue-muted hover:bg-blue-muted-light text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+  }
+  
+  .btn-outline {
+    @apply border border-cyan-dark text-cyan-light hover:bg-cyan-dark hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+  }
+  
+  .btn-danger {
+    @apply bg-error hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+  }
+  
+  /* <====[INPUTS]=====> */
+  .input-dark {
+    @apply w-full px-4 py-2 bg-bg-tertiary border border-border rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:border-cyan-dark transition-colors;
+  }
+  
+  /* <====[CARDS]=====> */
+  .card-dark {
+    @apply bg-bg-card border border-border rounded-xl p-6;
+  }
+  
+  /* <====[SIDEBAR]=====> */
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-tertiary transition-all duration-200;
+  }
+  
+  .sidebar-link-active {
+    @apply text-text-primary bg-cyan-dark/20 border-r-2 border-cyan-dark;
   }
 }

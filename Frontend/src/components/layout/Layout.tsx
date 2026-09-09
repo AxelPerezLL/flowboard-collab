@@ -1,55 +1,26 @@
-import React from 'react';
-import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Sidebar } from './Sidebar';
+import { Header } from './Header.tsx';
 
 export const Layout: React.FC = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const closeSidebar = () => setSidebarOpen(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <Link to="/dashboard" className="text-2xl font-bold text-blue-600">
-                FlowBoard
-              </Link>
-              <nav className="hidden md:flex space-x-4">
-                <Link to="/dashboard" className="text-gray-700 hover:text-blue-600">
-                  Dashboard
-                </Link>
-                <Link to="/boards" className="text-gray-700 hover:text-blue-600">
-                  Tableros
-                </Link>
-              </nav>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700 hidden sm:inline">
-                {user?.name}
-              </span>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-              >
-                Cerrar sesión
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-bg-primary flex">
+      {/* <====[SIDEBAR]=====> */}
+      <Sidebar isOpen={sidebarOpen} onClose={closeSidebar} />
 
-      {/* Main content */}
-      <main>
-        <Outlet />
-      </main>
+      {/* <====[CONTENIDO PRINCIPAL]=====> */}
+      <div className="flex-1 flex flex-col min-h-screen lg:ml-0">
+        <Header onMenuClick={toggleSidebar} />
+        <main className="flex-1 p-4 md:p-6 lg:p-8">
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };

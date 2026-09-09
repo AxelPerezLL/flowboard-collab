@@ -1,5 +1,5 @@
 import axios, { type AxiosInstance, type InternalAxiosRequestConfig } from 'axios';
-import type { ApiError } from '../types/types.ts';
+// import type { ApiError } from '../types/types.ts';
 
 // ============================================
 // CONFIGURACIÓN DE LA API
