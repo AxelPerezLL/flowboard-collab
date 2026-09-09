@@ -2976,19 +2976,19 @@
     ]
   },
   "packageFolders": {
-    "/home/jeanu/.nuget/packages/": {}
+    "/home/axelp/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/jeanu/Documentos/FlowBoardCollab/flowboard-collab/Backend/FlowBoardCollab.API/FlowBoardCollab.API.csproj",
+      "projectUniqueName": "/home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/FlowBoardCollab.API.csproj",
       "projectName": "FlowBoardCollab.API",
-      "projectPath": "/home/jeanu/Documentos/FlowBoardCollab/flowboard-collab/Backend/FlowBoardCollab.API/FlowBoardCollab.API.csproj",
-      "packagesPath": "/home/jeanu/.nuget/packages/",
-      "outputPath": "/home/jeanu/Documentos/FlowBoardCollab/flowboard-collab/Backend/FlowBoardCollab.API/obj/",
+      "projectPath": "/home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/FlowBoardCollab.API.csproj",
+      "packagesPath": "/home/axelp/.nuget/packages/",
+      "outputPath": "/home/axelp/Desarrollo/flowboard-collab/Backend/FlowBoardCollab.API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/jeanu/.nuget/NuGet/NuGet.Config"
+        "/home/axelp/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"

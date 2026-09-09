@@ -59,5 +59,41 @@ namespace FlowBoardCollab.API.Controllers
 
             return Ok(user);
         }
+
+        // <====[ENDPOINT: FORGOT PASSWORD]=====>
+        [HttpPost("forgot-password")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ForgotPasswordResponseDTO>> ForgotPassword([FromBody] ForgotPasswordRequestDTO request)
+        {
+            try
+            {
+                var result = await _authService.ForgotPasswordAsync(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor." });
+            }
+        }
+
+        // <====[ENDPOINT: RESET PASSWORD]=====>
+        [HttpPost("reset-password")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestDTO request)
+        {
+            try
+            {
+                var result = await _authService.ResetPasswordAsync(request);
+
+                if (!result)
+                    return BadRequest(new { message = "Código inválido o expirado." });
+
+                return Ok(new { message = "Contraseña restablecida exitosamente." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor." });
+            }
+        }
     }
 }

@@ -14,6 +14,10 @@ namespace FlowBoardCollab.API.Services
         Task<AuthResponseDTO> RegisterAsync(RegisterDTO registerDto);
         Task<AuthResponseDTO> LoginAsync(LoginDTO loginDto);
         Task<UserDTO?> GetUserByIdAsync(int userId);
+        
+        // <====[MÉTODOS PARA RECUPERACIÓN DE CONTRASEÑA]=====>
+        Task<ForgotPasswordResponseDTO> ForgotPasswordAsync(ForgotPasswordRequestDTO request);
+        Task<bool> ResetPasswordAsync(ResetPasswordRequestDTO request);
     }
 
     public class AuthService : IAuthService
@@ -92,6 +96,81 @@ namespace FlowBoardCollab.API.Services
                 AvatarUrl = user.AvatarUrl,
                 CreatedAt = user.CreatedAt
             };
+        }
+
+        // <====[MÉTODO: GENERAR CÓDIGO DE RECUPERACIÓN]=====>
+        private string GenerateRecoveryCode()
+        {
+            var random = new Random();
+            return random.Next(100000, 999999).ToString();
+        }
+
+        // <====[MÉTODO: FORGOT PASSWORD]=====>
+        public async Task<ForgotPasswordResponseDTO> ForgotPasswordAsync(ForgotPasswordRequestDTO request)
+        {
+            var email = request.Email.ToLower().Trim();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            // Por seguridad, no revelamos si el email existe o no
+            if (user == null)
+            {
+                return new ForgotPasswordResponseDTO
+                {
+                    Success = true,
+                    Message = "Si el email existe, recibirás un código de recuperación."
+                };
+            }
+
+            // Generar código de recuperación
+            var recoveryCode = GenerateRecoveryCode();
+            user.RecoveryCode = BCrypt.Net.BCrypt.HashPassword(recoveryCode);
+            user.RecoveryCodeExpiresAt = DateTime.UtcNow.AddMinutes(10); // Expira en 10 minutos
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+
+            // Aquí deberías enviar el email con el código
+            // Por ahora solo retornamos éxito (después conectaremos con EmailService)
+            
+            // TODO: Enviar email con el código recoveryCode al usuario user.Email
+            
+            return new ForgotPasswordResponseDTO
+            {
+                Success = true,
+                Message = "Código de recuperación enviado a tu correo."
+            };
+        }
+
+        // <====[MÉTODO: RESET PASSWORD]=====>
+        public async Task<bool> ResetPasswordAsync(ResetPasswordRequestDTO request)
+        {
+            var email = request.Email.ToLower().Trim();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+                return false;
+
+            // Verificar que el código exista y no haya expirado
+            if (string.IsNullOrEmpty(user.RecoveryCode) ||
+                user.RecoveryCodeExpiresAt == null ||
+                user.RecoveryCodeExpiresAt < DateTime.UtcNow)
+            {
+                return false;
+            }
+
+            // Verificar el código
+            var isValid = BCrypt.Net.BCrypt.Verify(request.RecoveryCode, user.RecoveryCode);
+            if (!isValid)
+                return false;
+
+            // Actualizar contraseña
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+            user.RecoveryCode = null;
+            user.RecoveryCodeExpiresAt = null;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         private Task<AuthResponseDTO> GenerateAuthResponseAsync(User user)
