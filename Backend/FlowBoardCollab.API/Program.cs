@@ -31,7 +31,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 // Registrar servicios
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IEmailService, EmailService>(); // <====[YA ESTÁ, BIEN]=====>
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IBoardService, BoardService>();
+builder.Services.AddScoped<ICardService, CardService>();
 
 // Configurar autenticación JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
