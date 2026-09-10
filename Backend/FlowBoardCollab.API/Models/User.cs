@@ -32,8 +32,14 @@ namespace FlowBoardCollab.API.Models
         public string? RecoveryCode { get; set; }
         public DateTime? RecoveryCodeExpiresAt { get; set; }
 
-        // Relaciones
+        // <====[RELACIONES]=====>
         public virtual ICollection<TeamMember> TeamMemberships { get; set; } = new List<TeamMember>();
         public virtual ICollection<PasswordResetToken>? PasswordResetTokens { get; set; }
+        
+        // <====[TARJETAS ASIGNADAS]=====>
+        public virtual ICollection<Card> AssignedCards { get; set; } = new List<Card>();
+        
+        // <====[TARJETAS CREADAS]=====>
+        public virtual ICollection<Card> CreatedCards { get; set; } = new List<Card>();
     }
 }

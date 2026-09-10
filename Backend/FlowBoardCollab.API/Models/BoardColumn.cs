@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlowBoardCollab.API.Models
 {
-    public class Team
+    public class BoardColumn
     {
         [Key]
         public int Id { get; set; }
@@ -14,15 +15,17 @@ namespace FlowBoardCollab.API.Models
         [MaxLength(500)]
         public string? Description { get; set; }
 
+        public int Position { get; set; } // Orden de la columna
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
 
-        public int CreatedById { get; set; }
-        public virtual User CreatedBy { get; set; } = null!;
+        // Relación con Team (el tablero/grupo)
+        [ForeignKey("Team")]
+        public int TeamId { get; set; }
+        public virtual Team Team { get; set; } = null!;
 
-        public virtual ICollection<TeamMember> Members { get; set; } = new List<TeamMember>();
-
-        // <====[COLUMNAS DEL TABLERO]=====>
-        public virtual ICollection<BoardColumn> Columns { get; set; } = new List<BoardColumn>();
+        // Relación con Cards
+        public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
     }
 }
