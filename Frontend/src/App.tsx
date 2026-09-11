@@ -8,6 +8,9 @@ import { Layout } from './components/layout/Layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import ForgotPassword from './pages/ForgotPassword'; 
+import ResetPassword from './pages/ResetPassword'; 
+import VerifyCode from './pages/VerifyCode';
 
 function App() {
   return (
@@ -17,6 +20,10 @@ function App() {
           {/* <====[RUTAS PÚBLICAS]=====> */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
+          <Route path="/forgot-password" element={<ForgotPassword />} /> 
+          <Route path="/verify-code" element={<VerifyCode />} />  
+          <Route path="/reset-password" element={<ResetPassword />} /> 
           
           {/* <====[REDIRECCIÓN]=====> */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
