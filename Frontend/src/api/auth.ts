@@ -4,7 +4,13 @@ import type {
   RegisterRequest, 
   AuthResponse, 
   User, 
-  ApiError 
+  ApiError,
+  ForgotPasswordRequest,
+  ForgotPasswordResponse,
+  ResetPasswordRequest,
+  ResetPasswordResponse,
+  VerifyCodeRequest,
+  VerifyCodeResponse
 } from '../types/types.ts';
 
 // ---------- LOGIN ----------
@@ -67,5 +73,34 @@ export const getStoredUser = (): Partial<User> | null => {
     return JSON.parse(userStr);
   } catch {
     return null;
+  }
+};
+
+// ---------- FORGOT PASSWORD ----------
+export const forgotPassword = async (data: ForgotPasswordRequest): Promise<ForgotPasswordResponse> => {
+  try {
+    const response = await apiClient.post<ForgotPasswordResponse>('/auth/forgot-password', data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// ---------- RESET PASSWORD ----------
+export const resetPassword = async (data: ResetPasswordRequest): Promise<ResetPasswordResponse> => {
+  try {
+    const response = await apiClient.post<ResetPasswordResponse>('/auth/reset-password', data);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const verifyCode = async (data: VerifyCodeRequest): Promise<VerifyCodeResponse> => {
+  try {
+    const response = await apiClient.post<VerifyCodeResponse>('/auth/verify-code', data);
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 };
