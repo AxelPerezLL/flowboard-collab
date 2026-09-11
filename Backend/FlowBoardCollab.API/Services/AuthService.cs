@@ -19,6 +19,7 @@ namespace FlowBoardCollab.API.Services
         // <====[MÉTODOS PARA RECUPERACIÓN DE CONTRASEÑA]=====>
         Task<ForgotPasswordResponseDTO> ForgotPasswordAsync(ForgotPasswordRequestDTO request);
         Task<bool> ResetPasswordAsync(ResetPasswordRequestDTO request);
+        Task<VerifyCodeResponseDTO> VerifyCodeAsync(VerifyCodeRequestDTO request);
     }
 
     public class AuthService : IAuthService
@@ -145,6 +146,56 @@ namespace FlowBoardCollab.API.Services
                 Message = emailSent 
                     ? "Código de recuperación enviado a tu correo." 
                     : "Error al enviar el código de recuperación. Intenta de nuevo."
+            };
+        }
+
+        // <====[MÉTODO: VERIFY CODE]=====>
+        // Solo verifica que el código sea válido y no haya expirado, pero NO lo consume.
+        // El código se consume (se borra) cuando se resetea la contraseña.
+        public async Task<VerifyCodeResponseDTO> VerifyCodeAsync(VerifyCodeRequestDTO request)
+        {
+            var email = request.Email.ToLower().Trim();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user == null)
+            {
+                return new VerifyCodeResponseDTO
+                {
+                    Valid = false,
+                    Message = "Código inválido o expirado."
+                };
+            }
+
+            // Verificar que el código exista y no haya expirado
+            if (string.IsNullOrEmpty(user.RecoveryCode) ||
+                user.RecoveryCodeExpiresAt == null ||
+                user.RecoveryCodeExpiresAt < DateTime.UtcNow)
+            {
+                return new VerifyCodeResponseDTO
+                {
+                    Valid = false,
+                    Message = "El código ha expirado o no es válido. Solicita uno nuevo."
+                };
+            }
+
+            // Verificar el código (comparación con el hash)
+            var isValid = BCrypt.Net.BCrypt.Verify(request.RecoveryCode, user.RecoveryCode);
+            
+            if (!isValid)
+            {
+                return new VerifyCodeResponseDTO
+                {
+                    Valid = false,
+                    Message = "Código incorrecto. Verifica e intenta de nuevo."
+                };
+            }
+
+            // <====[CÓDIGO VÁLIDO: NO lo consumimos aquí]=====>
+            // El consumo del código se hace en ResetPasswordAsync
+            return new VerifyCodeResponseDTO
+            {
+                Valid = true,
+                Message = "Código verificado correctamente."
             };
         }
 
