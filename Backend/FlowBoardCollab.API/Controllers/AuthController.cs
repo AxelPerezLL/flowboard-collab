@@ -95,5 +95,26 @@ namespace FlowBoardCollab.API.Controllers
                 return StatusCode(500, new { message = "Error interno del servidor." });
             }
         }
+        
+        // <====[ENDPOINT: VERIFY CODE]=====>
+        [HttpPost("verify-code")]
+        [AllowAnonymous]
+        public async Task<ActionResult<VerifyCodeResponseDTO>> VerifyCode([FromBody] VerifyCodeRequestDTO request)
+        {
+            try
+            {
+                var result = await _authService.VerifyCodeAsync(request);
+                
+                if (!result.Valid)
+                    return BadRequest(result);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Error interno del servidor." });
+            }
+        }
+
     }
 }
