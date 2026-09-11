@@ -84,4 +84,24 @@ namespace FlowBoardCollab.API.DTOs
         public bool Success { get; set; }
         public string Message { get; set; } = string.Empty;
     }
+
+    // <====[DTO PARA VERIFICAR CÓDIGO]=====>
+    public class VerifyCodeRequestDTO
+    {
+        [Required(ErrorMessage = "El email es requerido")]
+        [EmailAddress(ErrorMessage = "Email inválido")]
+        [MaxLength(150)]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El código es requerido")]
+        [MinLength(6, ErrorMessage = "El código debe tener 6 dígitos")]
+        [MaxLength(6, ErrorMessage = "El código debe tener 6 dígitos")]
+        public string RecoveryCode { get; set; } = string.Empty;
+    }
+
+    public class VerifyCodeResponseDTO
+    {
+        public bool Valid { get; set; }
+        public string Message { get; set; } = string.Empty;
+}
 }
