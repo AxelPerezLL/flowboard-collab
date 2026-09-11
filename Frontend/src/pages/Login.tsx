@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useEffect } from 'react';
 import '../styles/pages/login.css';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, isLoading, error } = useAuth();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState({ email: false, password: false });
+
+  // <====[LEER MENSAJE DE ÉXITO DESDE RESET PASSWORD]=====>
+  useEffect(() => {
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message);
+      // Limpiar el state para que no se repita al recargar
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -135,7 +147,28 @@ const Login: React.FC = () => {
                 <div className={`login-input-underline ${isFocused.password || password ? 'login-input-underline--active' : ''}`} />
               </div>
             </div>
-
+            
+            {/* <====[LINK OLVIDÉ CONTRASEÑA]=====> */}
+            <div style={{ textAlign: 'right', marginTop: '-8px', marginBottom: '15px' }}>
+              <Link 
+                to="/forgot-password" 
+                style={{ 
+                  color: '#8b949e', 
+                  fontSize: '14px', 
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#00d4ff'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#8b949e'}
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
+            {successMessage && (
+              <div className="login-error" style={{ backgroundColor: 'rgba(0, 212, 255, 0.1)', borderColor: '#00d4ff' }}>
+                <p className="login-error-text" style={{ color: '#00d4ff' }}>{successMessage}</p>
+              </div>
+            )}
             {/* <====[ERROR]=====> */}
             {(error || localError) && (
               <div className="login-error">
