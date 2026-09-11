@@ -38,6 +38,38 @@ export interface ApiError {
   status?: number;
 }
 
+// ---------- PASSWORD RESET ----------
+export interface ForgotPasswordRequest {
+  email: string;
+}
+
+export interface ForgotPasswordResponse {
+  success: boolean;
+  message: string;
+}
+
+export interface ResetPasswordRequest {
+  email: string;
+  recoveryCode: string;
+  newPassword: string;
+  confirmPassword: string;
+}
+
+export interface ResetPasswordResponse {
+  message: string;
+}
+
+// ---------- VERIFY CODE ----------
+export interface VerifyCodeRequest {
+  email: string;
+  recoveryCode: string;
+}
+
+export interface VerifyCodeResponse {
+  valid: boolean;
+  message: string;
+}
+
 // ---------- CONTEXT STATE ----------
 export interface AuthState {
   user: User | null;
